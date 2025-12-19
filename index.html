@@ -38,13 +38,26 @@ body{
 /* Header */
 header h1{
   color: var(--gold);
-  font-size: clamp(36px, 6vw, 72px);
-  letter-spacing: 0.35em;
+
+  /* Responsive size that always fits the viewport */
+  font-size: clamp(34px, 5.2vw, 76px);
+
+  /* Controlled spacing so it spans but doesn’t overflow */
+  letter-spacing: 0.12em;
+
+  /* Keep it one line */
   white-space: nowrap;
-  max-width: none;
-  margin: 0 auto 6px;
+
+  /* Prevent overflow from pushing text off screen */
+  overflow: hidden;
+
+  width: 100%;
+  text-align: center;
+
+  margin: 0 0 6px 0;
   font-weight: 400;
 }
+
 
 
 
