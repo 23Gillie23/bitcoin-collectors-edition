@@ -29,9 +29,17 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(circle at center, var(--bg-mid), var(--bg-dark));
   color: var(--text-light);
   text-align: center;
+
+  /* Use your exact image as the page canvas */
+  background-image: url("BestCoinFace.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+
+  /* Keeps the rest of the page consistent with your image tone */
+  background-color: var(--bg-dark);
 }
 
 /* ------------------------------
