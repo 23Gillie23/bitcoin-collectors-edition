@@ -7,65 +7,58 @@
 <title>Bitcoin Collectors Edition — Presale</title>
 
 <style>
-/* ===============================
-   COLOR & LUXURY VARIABLES
-================================ */
+/* ------------------------------
+   CORE LUXURY VARIABLES
+--------------------------------*/
 :root {
   --bg-dark: #120b06;
+  --bg-mid: #1a1009;
   --gold: #d4af37;
   --gold-soft: #bfa24a;
   --text-light: #e6e1d8;
 }
 
-/* ===============================
-   RESET
-================================ */
+/* ------------------------------
+   BASE RESET
+--------------------------------*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===============================
-   PAGE BACKGROUND (YOUR IMAGE)
-================================ */
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at center, var(--bg-mid), var(--bg-dark));
   color: var(--text-light);
   text-align: center;
-
-  background-image: url("BestCoinFace.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  background-color: var(--bg-dark);
 }
 
-/* ===============================
+/* ------------------------------
    HEADER
-================================ */
+--------------------------------*/
 header {
-  padding: 70px 20px 30px;
+  padding: 60px 20px 20px;
 }
 
 header h1 {
   color: var(--gold);
   font-size: 48px;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   margin-bottom: 10px;
 }
 
 header h2 {
   color: var(--gold-soft);
-  font-size: 20px;
-  letter-spacing: 7px;
+  font-size: 22px;
+  letter-spacing: 6px;
 }
 
-/* ===============================
+/* ------------------------------
    NAVIGATION
-================================ */
+--------------------------------*/
 nav {
-  margin-top: 35px;
+  margin-top: 30px;
 }
 
 nav a {
@@ -97,22 +90,22 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* ===============================
+/* ------------------------------
    BUY BUTTON
-================================ */
+--------------------------------*/
 .buy-container {
-  margin: 70px 0 40px;
+  margin: 60px 0 30px;
 }
 
 .buy-btn {
   background: transparent;
   border: 1px solid var(--gold);
   color: var(--gold);
-  padding: 14px 45px;
-  font-size: 15px;
-  letter-spacing: 4px;
+  padding: 14px 40px;
+  font-size: 16px;
+  letter-spacing: 3px;
   cursor: pointer;
-  transition: all 0.35s ease;
+  transition: all 0.3s ease;
 }
 
 .buy-btn:hover {
@@ -120,19 +113,146 @@ nav a:hover::after {
   color: #000;
 }
 
-/* ===============================
+/* ------------------------------
    TAGLINE
-================================ */
+--------------------------------*/
 .tagline {
-  margin: 30px 0;
+  margin: 30px 0 40px;
   font-size: 18px;
-  letter-spacing: 6px;
+  letter-spacing: 5px;
   color: var(--gold-soft);
 }
 
-/* ===============================
-   HERO SPACER
-   (THIS IS WHAT LETS THE IMAGE
-   FEEL FULL-PAGE)
-===============
+/* ------------------------------
+   COIN IMAGE
+--------------------------------*/
+.coin-wrapper {
+  max-width: 600px;
+  margin: 0 auto 80px;
+}
 
+.coin-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------------------
+   SECTIONS
+--------------------------------*/
+section {
+  max-width: 900px;
+  margin: 120px auto;
+  padding: 0 20px;
+}
+
+section h3 {
+  color: var(--gold);
+  font-size: 28px;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+section p {
+  line-height: 1.7;
+  color: var(--text-light);
+  font-size: 16px;
+}
+
+/* ------------------------------
+   FOOTER
+--------------------------------*/
+footer {
+  padding: 80px 20px;
+  font-size: 14px;
+  color: var(--gold-soft);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>BITCOIN COLLECTORS EDITION</h1>
+  <h2>PRESALE</h2>
+
+  <nav>
+    <a href="#about">ABOUT US</a>
+    <a href="#roadmap">ROADMAP</a>
+    <a href="#artifact">COLLECTORS GRADE ARTIFACT</a>
+    <a href="#how">HOW TO BUY</a>
+    <a href="https://x.com/" target="_blank">X</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</header>
+
+<div class="buy-container">
+  <button class="buy-btn" onclick="connectWallet()">CONNECT WALLET</button>
+</div>
+
+<div class="tagline">
+  THE HOLY GRAIL OF CRYPTO
+</div>
+
+<div class="coin-wrapper">
+  <img src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
+</div>
+
+<section id="about">
+  <h3>ABOUT US</h3>
+  <p>
+    Bitcoin Collectors Edition is a finite, archival-grade digital artifact
+    designed to represent scarcity, permanence, and historical significance
+    within the Bitcoin ecosystem.
+  </p>
+</section>
+
+<section id="roadmap">
+  <h3>ROADMAP</h3>
+  <p>
+    Presale begins with an initial allocation of 1,000 units.
+    Price increases incrementally with each subsequent allocation.
+    Upon completion, the floor valuation is established at 1.5 BTC.
+  </p>
+</section>
+
+<section id="artifact">
+  <h3>COLLECTORS GRADE ARTIFACT</h3>
+  <p>
+    Classification: Collectors Grade Artifact<br>
+    Supply: Fixed<br>
+    Issuance: Manual & Verifiable<br>
+    Custody: Owner-Held Ordinals
+  </p>
+</section>
+
+<section id="how">
+  <h3>HOW TO BUY</h3>
+  <p>
+    1. Connect your UniSat wallet<br>
+    2. Select quantity<br>
+    3. Enter your Ordinals address<br>
+    4. Confirm transaction<br>
+    5. Delivery within 24 hours
+  </p>
+</section>
+
+<section id="contact">
+  <h3>CONTACT</h3>
+  <p>
+    For legitimate inquiries only.<br>
+    contact@yourdomain.com
+  </p>
+</section>
+
+<footer>
+  © Bitcoin Collectors Edition
+</footer>
+
+<script>
+function connectWallet() {
+  alert("UniSat wallet connection will be added in the next step.");
+}
+</script>
+
+</body>
+</html>
