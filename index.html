@@ -7,231 +7,188 @@
 <title>Bitcoin Collectors Edition — Presale</title>
 
 <style>
-/* ===============================
-   COLOR & LUXURY VARIABLES
-================================ */
-:root {
-  --bg-dark: #120b06;
-  --gold: #d4af37;
-  --gold-soft: #bfa24a;
-  --text-light: #e6e1d8;
+:root{
+  --bg-dark:#120b06;
+  --bg-mid:#1a1009;
+  --gold:#d4af37;
+  --gold-soft:#bfa24a;
+  --text:#e6e1d8;
+
+  /* One knob to control how big the canvas image feels */
+  --hero-max-width: 1200px;   /* try 1100px if still too big */
 }
 
-/* ===============================
-   RESET
-================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-/* ===============================
-   PAGE BACKGROUND (YOUR IMAGE)
-================================ */
-body {
+body{
   font-family: Arial, Helvetica, sans-serif;
-  color: var(--text-light);
-  text-align: center;
+  color:var(--text);
+  text-align:center;
 
-  background-image: url("BestCoinFace.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: contain;
+  /* This is the “extended background” above/below your image */
+  background: radial-gradient(circle at center, var(--bg-mid), var(--bg-dark));
   background-color: var(--bg-dark);
 }
 
-/* ===============================
-   HEADER
-================================ */
-header {
-  padding: 70px 20px 30px;
+/* ===== HERO AREA ===== */
+.hero{
+  padding: 70px 20px 40px;
 }
 
-header h1 {
-  color: var(--gold);
-  font-size: 48px;
-  letter-spacing: 5px;
-  margin-bottom: 10px;
+/* Header */
+header h1{
+  color:var(--gold);
+  font-size:48px;
+  letter-spacing:5px;
+  margin-bottom:10px;
+}
+header h2{
+  color:var(--gold-soft);
+  font-size:20px;
+  letter-spacing:7px;
 }
 
-header h2 {
-  color: var(--gold-soft);
-  font-size: 20px;
-  letter-spacing: 7px;
+/* Nav */
+nav{
+  margin-top:35px;
 }
-
-/* ===============================
-   NAVIGATION
-================================ */
-nav {
-  margin-top: 35px;
-}
-
-nav a {
-  color: var(--gold-soft);
-  text-decoration: none;
-  margin: 0 15px;
-  font-size: 14px;
-  letter-spacing: 2px;
-  position: relative;
+nav a{
+  color:var(--gold-soft);
+  text-decoration:none;
+  margin:0 15px;
+  font-size:14px;
+  letter-spacing:2px;
+  position:relative;
   transition: color 0.3s ease;
 }
-
-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0%;
-  height: 1px;
-  background: var(--gold);
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0%;
+  height:1px;
+  background:var(--gold);
   transition: width 0.3s ease;
 }
+nav a:hover{ color:var(--gold); }
+nav a:hover::after{ width:100%; }
 
-nav a:hover {
-  color: var(--gold);
+/* Buttons row */
+.actions{
+  margin:70px 0 30px;
 }
-
-nav a:hover::after {
-  width: 100%;
-}
-
-/* ===============================
-   BUY BUTTON
-================================ */
-.buy-container {
-  margin: 70px 0 40px;
-}
-
-.buy-btn {
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  padding: 14px 45px;
-  font-size: 15px;
-  letter-spacing: 4px;
-  cursor: pointer;
+.btn{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:14px 45px;
+  font-size:15px;
+  letter-spacing:4px;
+  cursor:pointer;
   transition: all 0.35s ease;
 }
-
-.buy-btn:hover {
-  background: var(--gold);
-  color: #000;
+.btn:hover{
+  background:var(--gold);
+  color:#000;
 }
 
-/* ===============================
-   TAGLINE
-================================ */
-.tagline {
-  margin: 30px 0;
-  font-size: 18px;
-  letter-spacing: 6px;
-  color: var(--gold-soft);
+/* Tagline */
+.tagline{
+  margin:30px 0 35px;
+  font-size:18px;
+  letter-spacing:6px;
+  color:var(--gold-soft);
 }
 
-/* ===============================
-   HERO SPACER
-   (THIS IS WHAT LETS THE IMAGE
-   FEEL FULL-PAGE)
-================================ */
-.hero-spacer {
-  height: 75vh;
+/* ===== THE CANVAS IMAGE (YOUR PNG) =====
+   This keeps the composition exactly as you designed it.
+*/
+.hero-canvas{
+  width: 100%;
+  max-width: var(--hero-max-width);
+  height: auto;
+  display:block;
+  margin: 0 auto;
+
+  /* subtle polish, doesn’t change the image */
+  filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
 }
 
-/* ===============================
-   CONTENT SECTIONS
-================================ */
-section {
-  max-width: 900px;
-  margin: 140px auto;
-  padding: 0 20px;
+/* ===== CONTENT SECTIONS ===== */
+section{
+  max-width:900px;
+  margin:140px auto;
+  padding:0 20px;
+}
+section h3{
+  color:var(--gold);
+  font-size:28px;
+  letter-spacing:3px;
+  margin-bottom:25px;
+}
+section p{
+  font-size:16px;
+  line-height:1.7;
 }
 
-section h3 {
-  color: var(--gold);
-  font-size: 28px;
-  letter-spacing: 3px;
-  margin-bottom: 25px;
+/* Footer */
+footer{
+  padding:100px 20px;
+  font-size:14px;
+  color:var(--gold-soft);
 }
 
-section p {
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-/* ===============================
-   FOOTER
-================================ */
-footer {
-  padding: 100px 20px;
-  font-size: 14px;
-  color: var(--gold-soft);
-}
-
-/* ===============================
-   RESPONSIVE ADJUSTMENTS
-================================ */
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 34px;
-  }
-
-  nav a {
-    display: inline-block;
-    margin: 10px;
-  }
-
-  .hero-spacer {
-    height: 60vh;
-  }
+/* Responsive tweaks */
+@media (max-width: 768px){
+  header h1{ font-size:34px; }
+  nav a{ display:inline-block; margin:10px; }
+  :root{ --hero-max-width: 920px; }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>BITCOIN COLLECTORS EDITION</h1>
-  <h2>PRESALE</h2>
+<div class="hero">
+  <header>
+    <h1>BITCOIN COLLECTORS EDITION</h1>
+    <h2>PRESALE</h2>
 
-  <nav>
-    <a href="#about">ABOUT US</a>
-    <a href="#roadmap">ROADMAP</a>
-    <a href="#artifact">COLLECTORS GRADE ARTIFACT</a>
-    <a href="#how">HOW TO BUY</a>
-    <a href="https://x.com/" target="_blank">X</a>
-    <a href="#contact">CONTACT</a>
-  </nav>
-</header>
+    <nav>
+      <a href="#about">ABOUT US</a>
+      <a href="#roadmap">ROADMAP</a>
+      <a href="#artifact">COLLECTORS GRADE ARTIFACT</a>
+      <a href="#how">HOW TO BUY</a>
+      <a href="https://x.com/" target="_blank" rel="noopener">X</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
 
-<div class="buy-container">
-  <button class="buy-btn">CONNECT WALLET</button>
+  <div class="actions">
+    <button class="btn" type="button">CONNECT WALLET</button>
+  </div>
+
+  <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
+
+  <!-- Your exact image, framed correctly on all screens -->
+  <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
 </div>
-
-<div class="tagline">
-  THE HOLY GRAIL OF CRYPTO
-</div>
-
-<!-- THIS CREATES THE FULL HERO AREA -->
-<div class="hero-spacer"></div>
 
 <section id="about">
   <h3>ABOUT US</h3>
   <p>
     Bitcoin Collectors Edition is a finite, archival-grade digital artifact
-    representing permanence, scarcity, and historical significance within
-    the Bitcoin ecosystem.
+    representing permanence, scarcity, and historical significance within the Bitcoin ecosystem.
   </p>
 </section>
 
 <section id="roadmap">
   <h3>ROADMAP</h3>
   <p>
-    The presale begins with an initial allocation of 1,000 units at a fixed
-    valuation. Each subsequent allocation increases in value by a fixed
-    increment. Upon completion, the floor valuation is established at
-    1.5 BTC.
+    Presale begins with 1,000 units at 0.00375 BTC each.
+    Each additional 1,000 increases by 0.00375 BTC.
+    Upon completion, the floor valuation is established at 1.5 BTC.
   </p>
 </section>
 
@@ -240,7 +197,7 @@ footer {
   <p>
     Classification: Collectors Grade Artifact<br>
     Supply: Fixed<br>
-    Issuance: Manual & Verifiable<br>
+    Issuance: Manual &amp; Verifiable<br>
     Custody: Owner-Held Ordinals
   </p>
 </section>
@@ -264,10 +221,9 @@ footer {
   </p>
 </section>
 
-<footer>
-  © Bitcoin Collectors Edition
-</footer>
+<footer>© Bitcoin Collectors Edition</footer>
 
 </body>
 </html>
+
 
