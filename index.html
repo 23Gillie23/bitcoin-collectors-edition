@@ -36,18 +36,25 @@ body{
 }
 
 /* Header */
-header h1{
+heheader h1{
   color: var(--gold);
-  font-size: 64px;          /* BIGGER */
-  letter-spacing: 10px;     /* SPANS WIDTH */
-  margin-bottom: 6px;
-  font-weight: 400;
 
-  /* Forces a wide, commanding presence */
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  /* Responsive size that scales with screen width */
+  font-size: clamp(36px, 6vw, 72px);
+
+  /* This is what makes it span the page */
+  letter-spacing: 0.35em;
+
+  /* CRITICAL: prevents wrapping */
+  white-space: nowrap;
+
+  /* Remove width constraints */
+  max-width: none;
+
+  margin: 0 auto 6px;
+  font-weight: 400;
 }
+
 
 
 /* Nav */
