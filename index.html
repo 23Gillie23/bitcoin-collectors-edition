@@ -143,6 +143,14 @@ nav a:hover::after{ width:100%; }
 
 /* ===== IMAGE OVERLAYS ===== */
 
+/* BUY button pinned top-left of image */
+.buy-overlay{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+}
+
 /* CONNECT WALLET pinned top-right */
 .wallet-overlay{
   position: absolute;
@@ -235,18 +243,22 @@ footer{
   </header>
 
   <div class="hero-image-wrap">
-    <div class="wallet-overlay">
-      <button class="btn" type="button">CONNECT WALLET</button>
-    </div>
 
-    <div class="tagline-overlay">
-      <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
-    </div>
-
-    <!-- ✅ IMAGE IS BACK (and inside the container) -->
-    <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
+  <div class="buy-overlay">
+    <button class="btn" type="button">BUY</button>
   </div>
+
+  <div class="wallet-overlay">
+    <button class="btn" type="button">CONNECT WALLET</button>
+  </div>
+
+  <div class="tagline-overlay">
+    <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
+  </div>
+
+  <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
 </div>
+
 
 <section id="about">
   <h3>ABOUT US</h3>
