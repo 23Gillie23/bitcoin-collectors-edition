@@ -102,15 +102,19 @@ nav a:hover::after{ width:100%; }
   margin:70px 0 30px;
 }
 .btn{
-  background:transparent;
-  border:1px solid var(--gold);
-  color:var(--gold);
-  padding:14px 45px;
-  font-size:15px;
-  letter-spacing:4px;
-  cursor:pointer;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+
+  /* ~30% smaller */
+  padding: 10px 32px;
+  font-size: 11px;
+  letter-spacing: 3px;
+
+  cursor: pointer;
   transition: all 0.35s ease;
 }
+
 .btn:hover{
   background:var(--gold);
   color:#000;
@@ -140,7 +144,7 @@ nav a:hover::after{ width:100%; }
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
 }
 
 /* tighten spacing inside image */
