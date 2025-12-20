@@ -135,19 +135,33 @@ nav a:hover::after{ width:100%; }
   margin: -20px auto 0; /* keeps your upward shift */
 }
 
-.image-overlay{
-  position: absolute;
+/* ===== IMAGE OVERLAYS ===== */
 
-  /* ANCHOR TO IMAGE CORNER */
+/* CONNECT WALLET pinned top-right */
+.wallet-overlay{
+  position: absolute;
   top: 12px;
   right: 12px;
-
   z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
+
+/* TAGLINE centered inside the image */
+.tagline-overlay{
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 100%;
+  pointer-events: none; /* so clicks go through to button if near */
+}
+
+/* keep tagline centered even though body text-align is center */
+.tagline-overlay .tagline{
+  margin: 0;
+  text-align: center;
+}
+
 
 
 /* tighten spacing inside image */
@@ -228,14 +242,14 @@ footer{
 
 <div class="hero-image-wrap">
 
-  <div class="image-overlay">
-    <button class="btn" type="button">CONNECT WALLET</button>
-    <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
-  </div>
-
-  <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
-
+<div class="wallet-overlay">
+  <button class="btn" type="button">CONNECT WALLET</button>
 </div>
+
+<div class="tagline-overlay">
+  <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
+</div>
+
 
 <section id="about">
   <h3>ABOUT US</h3>
