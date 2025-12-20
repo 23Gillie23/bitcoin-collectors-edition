@@ -161,18 +161,6 @@ nav a:hover::after{ width:100%; }
   margin: 0;
   text-align: center;
 }
-
-
-
-/* tighten spacing inside image */
-.image-overlay .btn{
-  margin-bottom: 8px;
-}
-
-.image-overlay .tagline{
-  margin: 0;
-}
-
   
 /* ===== THE CANVAS IMAGE (YOUR PNG) =====
    This keeps the composition exactly as you designed it.
@@ -240,16 +228,19 @@ footer{
     </nav>
   </header>
 
-<div class="hero-image-wrap">
+  <div class="hero-image-wrap">
+    <div class="wallet-overlay">
+      <button class="btn" type="button">CONNECT WALLET</button>
+    </div>
 
-<div class="wallet-overlay">
-  <button class="btn" type="button">CONNECT WALLET</button>
+    <div class="tagline-overlay">
+      <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
+    </div>
+
+    <!-- ✅ IMAGE IS BACK (and inside the container) -->
+    <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
+  </div>
 </div>
-
-<div class="tagline-overlay">
-  <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
-</div>
-
 
 <section id="about">
   <h3>ABOUT US</h3>
@@ -300,6 +291,7 @@ footer{
 <footer>© Bitcoin Collectors Edition</footer>
 
 </body>
+
 </html>
 
 
