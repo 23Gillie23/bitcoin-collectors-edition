@@ -191,6 +191,52 @@ nav a:hover::after{ width:100%; }
   filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
 }
 
+/* ===== BRAND EMBLEMS (LEFT + RIGHT) ===== */
+.brand-row{
+  max-width: 1200px;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-emblem{
+  width: 280px;         /* desktop size */
+  max-width: 35vw;      /* responsive */
+  height: auto;
+  display: block;
+  opacity: 0.95;
+
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,0.35));
+}
+
+/* Optional: subtle asymmetry for “stamp” realism (very slight) */
+.brand-left{
+  transform: rotate(-1deg);
+}
+.brand-right{
+  transform: rotate(1deg);
+}
+
+/* Mobile: stack them so they don’t crush the layout */
+@media (max-width: 768px){
+  .brand-row{
+    flex-direction: column;
+    justify-content: center;
+    margin: 60px auto 20px;
+  }
+  .brand-emblem{
+    width: 240px;
+    max-width: 70vw;
+  }
+  .brand-left, .brand-right{
+    transform: none;
+  }
+}
+
 
 /* ===== CONTENT SECTIONS ===== */
 section{
@@ -357,6 +403,12 @@ footer{
   </p>
 </section>
 
+<section class="brand-row" aria-label="Brand emblems">
+  <img class="brand-emblem brand-left" src="Loveblem.png" alt="LOVE Emblem">
+  <img class="brand-emblem brand-right" src="Loveblem.png" alt="LOVE Emblem">
+</section>
+
+  
 <footer>© Bitcoin Collectors Edition</footer>
 
 </body>
