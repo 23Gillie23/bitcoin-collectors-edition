@@ -266,17 +266,20 @@ footer{
 
   /* Keep tagline off the buttons + give it side room */
   /* Mobile: keep tagline inside image but above the coin */
+/* Mobile: keep tagline on one line so it doesn't drop onto the coin */
 .tagline-overlay{
-  top: 46px;              /* fixed: sits below buttons */
-  padding: 0 70px;        /* keeps it away from corners */
+  top: 56px;              /* adjust if needed */
+  padding: 0 12px;        /* allow more usable width */
   box-sizing: border-box;
 }
 
-  .tagline{
-    font-size: 20px;
-    letter-spacing: 2px;
-    line-height: 1.2;
-  }
+.tagline{
+  white-space: nowrap;                 /* no wrap */
+  font-size: clamp(14px, 4vw, 20px);   /* scales down on small screens */
+  letter-spacing: clamp(1px, 1vw, 2px);
+  line-height: 1.1;
+}
+
 
   /* ✅ Key fix: push the IMAGE/COIN down so tagline doesn't sit on it */
   .hero-canvas{
