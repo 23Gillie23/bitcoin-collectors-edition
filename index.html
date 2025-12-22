@@ -198,7 +198,6 @@ section p{
 }
 
 /* ===== BRAND EMBLEMS (LEFT + RIGHT) ===== */
-/* Because this is a section, override the default section margins */
 section.brand-row{
   max-width: 1200px;
   margin: 10px auto 30px; /* close to contact */
@@ -246,25 +245,11 @@ footer{
     font-size: clamp(22px, 7vw, 34px);
   }
 
-  /* Prevent tagline from colliding with buttons */
-  .tagline-overlay{
-    top: 16%;
-    padding: 0 70px;
-    box-sizing: border-box;
-  }
-
-  .tagline{
-    font-size: 20px;
-    letter-spacing: 2px;
-    line-height: 1.2;
-  }
-
-}
-
   header h2{
     font-size: 16px;
     letter-spacing: 2px;
   }
+
   nav a{
     font-size: 13px;
     letter-spacing: 1.5px;
@@ -277,6 +262,23 @@ footer{
     padding: 9px 18px;
     font-size: 10px;
     letter-spacing: 2px;
+  }
+
+  /* Keep tagline off the buttons + give it side room */
+  .tagline-overlay{
+    top: 16%;
+    padding: 0 70px;
+    box-sizing: border-box;
+  }
+  .tagline{
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+
+  /* ✅ Key fix: push the IMAGE/COIN down so tagline doesn't sit on it */
+  .hero-canvas{
+    margin-top: 70px;  /* was 25px */
   }
 
   /* brand emblems stack on mobile */
@@ -376,8 +378,7 @@ footer{
     Divisibility: 0<br>
     Etching:<br>
     54fa5ad4ebbd12940cb3e517fcefdd3e<br>
-    9f5d2792941e69c9acbd277f499ccbe4<br>
-    <br>
+    9f5d2792941e69c9acbd277f499ccbe4<br><br>
     <a href="https://ordinals.com/rune/BITCOIN%E2%80%A2COLLECTORS%E2%80%A2EDITION"
        target="_blank" rel="noopener" class="artifact-link">View on Ordinals</a>
   </p>
@@ -401,7 +402,6 @@ footer{
   </p>
 </section>
 
-<!-- FIXED: unique id (was id="how" before) -->
 <section id="company">
   <h3>COMPANY</h3>
   <p>
@@ -440,4 +440,5 @@ footer{
 
 </body>
 </html>
+
 
