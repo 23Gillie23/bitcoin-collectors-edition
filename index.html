@@ -236,12 +236,29 @@ footer{
 }
 
 @media (max-width: 768px){
+
+  /* Fix main title wrapping */
   header h1{
-  white-space: normal;          /* allow wrapping */
-  line-height: 1.15;
-  letter-spacing: 0.05em;       /* tighter for mobile */
-  padding: 0 8px;               /* prevent edge clipping */
-  font-size: clamp(22px, 7vw, 34px);
+    white-space: normal;
+    line-height: 1.15;
+    letter-spacing: 0.05em;
+    padding: 0 8px;
+    font-size: clamp(22px, 7vw, 34px);
+  }
+
+  /* Prevent tagline from colliding with buttons */
+  .tagline-overlay{
+    top: 16%;
+    padding: 0 70px;
+    box-sizing: border-box;
+  }
+
+  .tagline{
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+
 }
 
   header h2{
