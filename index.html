@@ -265,11 +265,13 @@ footer{
   }
 
   /* Keep tagline off the buttons + give it side room */
-  .tagline-overlay{
-    top: 16%;
-    padding: 0 70px;
-    box-sizing: border-box;
-  }
+  /* Mobile: keep tagline inside image but above the coin */
+.tagline-overlay{
+  top: 46px;              /* fixed: sits below buttons */
+  padding: 0 70px;        /* keeps it away from corners */
+  box-sizing: border-box;
+}
+
   .tagline{
     font-size: 20px;
     letter-spacing: 2px;
