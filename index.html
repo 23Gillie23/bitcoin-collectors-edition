@@ -14,8 +14,11 @@
   --gold-soft:#bfa24a;
   --text:#e6e1d8;
 
-  /* One knob to control how big the canvas image feels */
-  --hero-max-width: 1200px;   /* try 1100px if still too big */
+  /* Hero image max width */
+  --hero-max-width: 1200px;
+
+  /* Responsive vertical rhythm */
+  --section-gap: clamp(56px, 8vw, 140px);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -24,8 +27,6 @@ body{
   font-family: Arial, Helvetica, sans-serif;
   color:var(--text);
   text-align:center;
-
-  /* This is the “extended background” above/below your image */
   background: radial-gradient(circle at center, var(--bg-mid), var(--bg-dark));
   background-color: var(--bg-dark);
 }
@@ -38,51 +39,41 @@ body{
 /* Header */
 header h1{
   color: var(--gold);
-
-  /* Responsive size that always fits the viewport */
-  font-size: clamp(34px, 5.2vw, 200px);
-
-  /* Controlled spacing so it spans but doesn’t overflow */
+  font-size: clamp(28px, 5.2vw, 120px);
   letter-spacing: 0.08em;
-
-  /* Keep it one line */
   white-space: nowrap;
-
-  /* Prevent overflow from pushing text off screen */
   overflow: hidden;
-
   width: 100%;
   text-align: center;
-
   margin: 0 0 6px 0;
   font-weight: 550;
 }
-
 
 header h2{
   color: var(--gold);
   font-size: 20px;
   letter-spacing: 3px;
-
-  /* TOP | LEFT/RIGHT | BOTTOM */
   margin: 4px 0 4px;
-
   font-weight: 500;
 }
-
 
 /* Nav */
 nav{
   margin-top:13px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap: 10px 18px;
+  padding: 0 10px;
 }
 nav a{
   color:var(--gold-soft);
   text-decoration:none;
-  margin:0 15px;
   font-size:14px;
   letter-spacing:2px;
   position:relative;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 nav a::after{
   content:"";
@@ -97,51 +88,40 @@ nav a::after{
 nav a:hover{ color:var(--gold); }
 nav a:hover::after{ width:100%; }
 
-/* Buttons row */
-.actions{
-  margin:70px 0 30px;
-}
+/* Buttons */
 .btn{
   background: transparent;
   border: 1px solid var(--gold);
   color: var(--gold);
-
-  /* ~30% smaller */
   padding: 10px 32px;
   font-size: 11px;
   letter-spacing: 3px;
-
   border-radius: 8px;
-
   cursor: pointer;
   transition: all 0.35s ease;
 }
-
 .btn:hover{
   background: var(--gold);
   color: #000;
   box-shadow: 0 6px 18px rgba(212,175,55,0.35);
 }
 
-
 /* Tagline */
 .tagline{
   margin: 0;
-  font-size: 30px;          /* ~15% increase from 18px */
-  letter-spacing: 4px;
+  font-size: clamp(18px, 3.2vw, 30px);
+  letter-spacing: clamp(2px, 0.7vw, 4px);
   color: var(--gold-soft);
   font-weight: 700;
 }
-
 
 /* ===== IMAGE WRAP & OVERLAY ===== */
 .hero-image-wrap{
   position: relative;
   max-width: var(--hero-max-width);
-  margin: -20px auto 0; /* keeps your upward shift */
+  margin: -20px auto 0;
+  padding: 0 10px; /* small gutter so overlays don't touch screen edge on mobile */
 }
-
-/* ===== IMAGE OVERLAYS ===== */
 
 /* BUY button pinned top-left of image */
 .buy-overlay{
@@ -167,10 +147,8 @@ nav a:hover::after{ width:100%; }
   transform: translateX(-50%);
   z-index: 2;
   width: 100%;
-  pointer-events: none; /* so clicks go through to button if near */
+  pointer-events: none;
 }
-
-/* keep tagline centered even though body text-align is center */
 .tagline-overlay .tagline{
   margin: 0;
   text-align: center;
@@ -184,30 +162,46 @@ nav a:hover::after{ width:100%; }
   font-size: 14px;
   transition: opacity 0.3s ease;
 }
+.artifact-link:hover{ opacity: 0.75; }
 
-.artifact-link:hover{
-  opacity: 0.75;
-}
-  
-/* ===== THE CANVAS IMAGE (YOUR PNG) =====
-   This keeps the composition exactly as you designed it.
-*/
+/* Hero image */
 .hero-canvas{
   width: 100%;
   max-width: var(--hero-max-width);
   height: auto;
   display:block;
-
-  /* THIS controls how far the coin is pushed down */
   margin: 25px auto 0;
-
   filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
 }
-  
+
+/* ===== CONTENT SECTIONS ===== */
+section{
+  max-width: 900px;
+  margin: var(--section-gap) auto;
+  padding: 0 20px;
+}
+
+section h3{
+  color:var(--gold);
+  font-size: clamp(20px, 2.8vw, 28px);
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+}
+section p{
+  font-size: clamp(14px, 1.8vw, 16px);
+  line-height: 1.7;
+}
+
+/* Remove extra gap after CONTACT so emblems can sit close */
+#contact{
+  margin-bottom: 0;
+}
+
 /* ===== BRAND EMBLEMS (LEFT + RIGHT) ===== */
-.brand-row{
+/* Because this is a section, override the default section margins */
+section.brand-row{
   max-width: 1200px;
-  margin: 5px auto 40px;
+  margin: 10px auto 30px; /* close to contact */
   padding: 0 20px;
 
   display: flex;
@@ -217,80 +211,64 @@ nav a:hover::after{ width:100%; }
 }
 
 .brand-emblem{
-  width: 375px;           /* ~33% larger */
-  max-width: 42vw;        /* still responsive */
+  width: 375px;
+  max-width: 42vw;
   height: auto;
   display: block;
   opacity: 0.95;
   filter: drop-shadow(0 12px 32px rgba(0,0,0,0.4));
 }
 
-
-/* Optional: subtle asymmetry for “stamp” realism (very slight) */
-.brand-left{
-  transform: rotate(-1deg);
-}
-.brand-right{
-  transform: rotate(1deg);
-}
-
-/* Mobile: stack them so they don’t crush the layout */
-@media (max-width: 768px){
-  .brand-row{
-    flex-direction: column;
-    justify-content: center;
-    margin: 60px auto 20px;
-  }
-  .brand-emblem{
-    width: 240px;
-    max-width: 70vw;
-  }
-  .brand-left, .brand-right{
-    transform: none;
-  }
-}
-
-/* ===== CONTENT SECTIONS ===== */
-section{
-  max-width:900px;
-  margin:140px auto;
-  padding:0 20px;
-}
-
-/* Remove the huge bottom gap after CONTACT */
-#contact{
-  margin-bottom: 0;
-}
-
-/* Brand row is a section too — remove the giant section spacing */
-section.brand-row{
-  margin: 0 auto 40px;
-}
-
-  
-section h3{
-  color:var(--gold);
-  font-size:28px;
-  letter-spacing:3px;
-  margin-bottom:25px;
-}
-section p{
-  font-size:16px;
-  line-height:1.7;
-}
+/* subtle asymmetry */
+.brand-left{ transform: rotate(-1deg); }
+.brand-right{ transform: rotate(1deg); }
 
 /* Footer */
 footer{
-  padding:30px 20px;
-  font-size:14px;
-  color:var(--gold-soft);
+  padding: 18px 20px; /* pulled closer */
+  font-size: 14px;
+  color: var(--gold-soft);
 }
 
-/* Responsive tweaks */
-@media (max-width: 768px){
-  header h1{ font-size:34px; }
-  nav a{ display:inline-block; margin:10px; }
+/* ===== RESPONSIVE TWEAKS ===== */
+@media (max-width: 1024px){
   :root{ --hero-max-width: 920px; }
+}
+
+@media (max-width: 768px){
+  header h1{
+    font-size: clamp(22px, 6vw, 34px);
+    letter-spacing: 0.06em;
+  }
+  header h2{
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+  nav a{
+    font-size: 13px;
+    letter-spacing: 1.5px;
+  }
+
+  /* keep overlay buttons reachable on small screens */
+  .buy-overlay{ top: 10px; left: 10px; }
+  .wallet-overlay{ top: 10px; right: 10px; }
+  .btn{
+    padding: 9px 18px;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  /* brand emblems stack on mobile */
+  section.brand-row{
+    flex-direction: column;
+    justify-content: center;
+    margin: 14px auto 18px;
+  }
+  .brand-emblem{
+    width: 260px;
+    max-width: 75vw;
+  }
+  .brand-left, .brand-right{ transform: none; }
 }
 </style>
 </head>
@@ -313,30 +291,29 @@ footer{
   </header>
 
   <div class="hero-image-wrap">
+    <div class="buy-overlay">
+      <button class="btn" type="button">BUY</button>
+    </div>
 
-  <div class="buy-overlay">
-    <button class="btn" type="button">BUY</button>
+    <div class="wallet-overlay">
+      <button class="btn" type="button">CONNECT WALLET</button>
+    </div>
+
+    <div class="tagline-overlay">
+      <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
+    </div>
+
+    <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
   </div>
-
-  <div class="wallet-overlay">
-    <button class="btn" type="button">CONNECT WALLET</button>
-  </div>
-
-  <div class="tagline-overlay">
-    <div class="tagline">THE HOLY GRAIL OF CRYPTO</div>
-  </div>
-
-  <img class="hero-canvas" src="BestCoinFace.png" alt="Bitcoin Collectors Edition">
 </div>
-
 
 <section id="about">
   <h3>ABOUT US</h3>
   <p>
     BITCOIN COLLECTORS EDITION is a limited edition. 500,000 will ever exist. Supply is permanently closed,
-    no minting, no future versions. This Collectors Grade Artifact was created on April 24, 2024 on the fourth day 
-    of the halving, representing permanence, scarcity, and historical significance within the Bitcoin ecosystem. 
-    This is an Elite Access Distribution through private sale, invitation, earned participation. 
+    no minting, no future versions. This Collectors Grade Artifact was created on April 24, 2024 on the fourth day
+    of the halving, representing permanence, scarcity, and historical significance within the Bitcoin ecosystem.
+    This is an Elite Access Distribution through private sale, invitation, earned participation.
     Ownership is a symbolic investment.
   </p>
 </section>
@@ -346,12 +323,12 @@ footer{
   <p>
     Presale begins with 1,000 units at 0.00375 BTC each.
     For every 1,000 sold the price increases by 0.00375 BTC.
-    Example: 0 - 1000 Price = .00375 BTC. 1001 - 2000 Price = .0075 BTC. 2001 - 3000 
-    Price = .01125 BTC. 3001 - 4000 Price = .015 BTC. 4001 - 5000 Price = .01875 BTC. 
-    This will continue on in this fashion until the price per token is 1.5 BTC. 
-    At that point the floor valuation of BITCOIN COLLECTORS EDITION is set at 1.5 BTC 
-    and will never be valued less than. The historic value of this Collectors Grade Artifact 
-    will only increase over the years because of it's historical significance and limited supply. 
+    Example: 0 - 1000 Price = .00375 BTC. 1001 - 2000 Price = .0075 BTC. 2001 - 3000
+    Price = .01125 BTC. 3001 - 4000 Price = .015 BTC. 4001 - 5000 Price = .01875 BTC.
+    This will continue on in this fashion until the price per token is 1.5 BTC.
+    At that point the floor valuation of BITCOIN COLLECTORS EDITION is set at 1.5 BTC
+    and will never be valued less than. The historic value of this Collectors Grade Artifact
+    will only increase over the years because of it's historical significance and limited supply.
     Ownership is Elite.
   </p>
 </section>
@@ -359,8 +336,7 @@ footer{
 <section id="artifact">
   <h3>COLLECTORS GRADE ARTIFACT</h3>
   <p>
-    BITCOIN COLLECTORS EDITION<br>
-    <br>
+    BITCOIN COLLECTORS EDITION<br><br>
     Valuation = 750,000 BTC<br>
     Classification: Collectors Grade Artifact<br>
     Supply: 500,000 Fixed<br>
@@ -378,14 +354,9 @@ footer{
     Burned: 0<br>
     Divisibility: 0<br>
     Etching:<br>
-    54fa5ad4ebbd12940cb3e517fcefdd3e9f5d2792941e69c9acbd277f499ccbe4<br>
-    <br>
-   <a href="https://ordinals.com/rune/BITCOIN%E2%80%A2COLLECTORS%E2%80%A2EDITION"
-   target="_blank"
-   rel="noopener"
-   class="artifact-link">
-   View on Ordinals
-   </a>
+    54fa5ad4ebbd12940cb3e517fcefdd3e9f5d2792941e69c9acbd277f499ccbe4<br><br>
+    <a href="https://ordinals.com/rune/BITCOIN%E2%80%A2COLLECTORS%E2%80%A2EDITION"
+       target="_blank" rel="noopener" class="artifact-link">View on Ordinals</a>
   </p>
 </section>
 
@@ -398,31 +369,30 @@ footer{
     3. Enter your Ordinals address<br>
        (Capable of recieving Runes)<br>
     4. Confirm transaction<br>
-    5. Batch Deliveries within 24 hours<br>
-    <br>
+    5. Batch Deliveries within 24 hours<br><br>
     During presale deliveries will be manually sent.<br>
     After the presale is over multiple wallet options will
     be available and deliveries will be<br>
     automated, normal blockchain delevery speeds<br>
-    will apply. 
+    will apply.
   </p>
 </section>
 
-  <section id="how">
+<!-- FIXED: unique id (was id="how" before) -->
+<section id="company">
   <h3>COMPANY</h3>
   <p>
-    ALIEN INTEGRATION MOVEMENT CORP<br>
-    <br>
+    ALIEN INTEGRATION MOVEMENT CORP<br><br>
     If we woke up tomorrow morning and on the news we were told of the existence of
     500 million extraterrestrials that have been living on this planet with us all along,
     what's the plan?
-    That is the core of Alien Integration Movement Corp. The integration of extraterrestrials 
-    into our society as one of us. The planning and the formula is 20 years in the making. 
-    Our species at some point in our future will co-exist with extraterrestrials. Not only is it inevitable, 
-    it will be necessary to the success  of our species to have multiple interspecies alliances on multiple planets. 
-    BITCOIN COLLECTORS EDITION was created to play a major part in the financial infrastructure of the Movement and 
-    the development of the necessary infrastructure for the Alien Integration Movement and the Extraterrestrial Citizenship Program. 
-    You would be participating in the most historical event that has ever occurred on our planet.<br> 
+    That is the core of Alien Integration Movement Corp. The integration of extraterrestrials
+    into our society as one of us. The planning and the formula is 20 years in the making.
+    Our species at some point in our future will co-exist with extraterrestrials. Not only is it inevitable,
+    it will be necessary to the success of our species to have multiple interspecies alliances on multiple planets.
+    BITCOIN COLLECTORS EDITION was created to play a major part in the financial infrastructure of the Movement and
+    the development of the necessary infrastructure for the Alien Integration Movement and the Extraterrestrial Citizenship Program.
+    You would be participating in the most historical event that has ever occurred on our planet.<br>
     Owning BITCOIN COLLECTORS EDITION will be a monumental ownership.
   </p>
 </section>
@@ -440,15 +410,11 @@ footer{
   <img class="brand-emblem brand-right" src="LoveBrand.png" alt="LOVE Emblem">
 </section>
 
-  
 <footer>
   © Bitcoin Collectors Edition<br>
   © Alien Integration Movement Corp
 </footer>
 
-
 </body>
-
 </html>
-
 
