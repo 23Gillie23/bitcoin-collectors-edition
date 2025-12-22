@@ -190,7 +190,7 @@ nav a:hover::after{ width:100%; }
 
   filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
 }
-
+  
 /* ===== BRAND EMBLEMS (LEFT + RIGHT) ===== */
 .brand-row{
   max-width: 1200px;
@@ -237,13 +237,18 @@ nav a:hover::after{ width:100%; }
   }
 }
 
-
 /* ===== CONTENT SECTIONS ===== */
 section{
   max-width:900px;
   margin:140px auto;
   padding:0 20px;
 }
+
+/* Remove the huge bottom gap after CONTACT */
+#contact{
+  margin-bottom: 0;
+}
+  
 section h3{
   color:var(--gold);
   font-size:28px;
