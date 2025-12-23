@@ -101,6 +101,13 @@ nav a:hover::after{ width:100%; }
   box-shadow: 0 6px 18px rgba(212,175,55,0.35);
 }
 
+/* ✅ Disabled button look */
+.btn:disabled{
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* Tagline */
 .tagline{
   margin: 0;
@@ -317,7 +324,7 @@ footer{
   border: 1px solid rgba(212,175,55,0.18);
   word-break: break-all;
 }
-  
+
 /* Toast */
 #toast{
   position: fixed;
@@ -681,6 +688,22 @@ function hasUnisat(){
   return typeof window.unisat !== "undefined";
 }
 
+/* ✅ Connect button polish + UI-state */
+function shortAddr(addr){
+  if(!addr || addr.length < 10) return addr || "";
+  return addr.slice(0, 6) + "..." + addr.slice(-4);
+}
+let connectedAccount = ""; // UI-state only
+function setConnectBtnUI(){
+  if(connectedAccount){
+    connectBtn.textContent = `CONNECTED: ${shortAddr(connectedAccount)}`;
+    connectBtn.dataset.connected = "1";
+  }else{
+    connectBtn.textContent = "CONNECT WALLET";
+    delete connectBtn.dataset.connected;
+  }
+}
+
 function openModal(id){
   const el = document.getElementById(id);
   if(!el) return;
@@ -710,6 +733,19 @@ function calc(){
 function setTotals(){
   const { tokens, totalBTC } = calc();
   totalBtcDisplay.value = tokens ? round8(totalBTC) : "—";
+}
+
+/* ✅ Disable PAY buttons until form is valid */
+function validateOrderInputs(){
+  const { tokens } = calc();
+  const ordAddr = (ordinalsInput.value || "").trim();
+  // simple sanity check (we can tighten later)
+  return tokens > 0 && ordAddr.length > 10;
+}
+function refreshPayButtonState(){
+  const ok = validateOrderInputs();
+  payWithUnisatBtn.disabled = !ok;
+  openMobileOptionsBtn.disabled = !ok;
 }
 
 function looksLikeTxid(txid){
@@ -754,7 +790,6 @@ async function logToSheet(payload){
 const connectBtn = document.getElementById("connectBtn");
 const buyBtn = document.getElementById("buyBtn");
 
-const buyModal = document.getElementById("buyModal");
 const buyModalBackdrop = document.getElementById("buyModalBackdrop");
 const closeBuyModalBtn = document.getElementById("closeBuyModalBtn");
 
@@ -766,7 +801,6 @@ const totalBtcDisplay = document.getElementById("totalBtcDisplay");
 const payWithUnisatBtn = document.getElementById("payWithUnisatBtn");
 const openMobileOptionsBtn = document.getElementById("openMobileOptionsBtn");
 
-const mobileModal = document.getElementById("mobileModal");
 const mobileModalBackdrop = document.getElementById("mobileModalBackdrop");
 const closeMobileModalBtn = document.getElementById("closeMobileModalBtn");
 
@@ -781,10 +815,15 @@ const submitPaidBtn = document.getElementById("submitPaidBtn");
 /** =========================
  *  Wiring
  *  ========================= */
-tokensInput.addEventListener("input", setTotals);
+tokensInput.addEventListener("input", ()=>{
+  setTotals();
+  refreshPayButtonState();
+});
+ordinalsInput.addEventListener("input", refreshPayButtonState);
 
 buyBtn.addEventListener("click", ()=>{
   setTotals();
+  refreshPayButtonState();
   openModal("buyModal");
 });
 
@@ -794,7 +833,16 @@ closeBuyModalBtn.addEventListener("click", ()=> closeModal("buyModal"));
 mobileModalBackdrop.addEventListener("click", ()=> closeModal("mobileModal"));
 closeMobileModalBtn.addEventListener("click", ()=> closeModal("mobileModal"));
 
+/* ✅ Updated CONNECT logic (connect + UI “disconnect”) */
 connectBtn.addEventListener("click", async ()=>{
+  // If already “connected”, treat click as “disconnect” (UI-only)
+  if(connectBtn.dataset.connected === "1"){
+    connectedAccount = "";
+    setConnectBtnUI();
+    showToast("Disconnected (site only).");
+    return;
+  }
+
   if(!hasUnisat()){
     if(isMobile()){
       showToast("UniSat not detected on this mobile browser. Use Mobile Options inside BUY.");
@@ -806,11 +854,30 @@ connectBtn.addEventListener("click", async ()=>{
 
   try{
     const accounts = await window.unisat.requestAccounts();
-    if(accounts && accounts[0]){
+    connectedAccount = (accounts && accounts[0]) ? accounts[0] : "";
+
+    if(connectedAccount){
+      setConnectBtnUI();
       showToast("Wallet connected.");
     }else{
       showToast("Wallet connect cancelled.");
     }
+
+    // Keep UI synced if UniSat supports events
+    if(window.unisat.on && !window.__unisatEventsBound){
+      window.__unisatEventsBound = true;
+
+      window.unisat.on("accountsChanged", (accounts)=>{
+        connectedAccount = (accounts && accounts[0]) ? accounts[0] : "";
+        setConnectBtnUI();
+      });
+
+      window.unisat.on("disconnect", ()=>{
+        connectedAccount = "";
+        setConnectBtnUI();
+      });
+    }
+
   }catch(err){
     showToast(err?.message || "Wallet connect failed.");
   }
@@ -848,11 +915,12 @@ payWithUnisatBtn.addEventListener("click", async ()=>{
     // ensure connected
     const accounts = await window.unisat.requestAccounts();
     const payer = accounts?.[0] || "";
+    if(payer){
+      connectedAccount = payer;
+      setConnectBtnUI();
+    }
 
-    // UniSat sendBitcoin expects (address, amount) where amount is BTC string/number
-    // NOTE: if UniSat API differs, we can adjust, but your current build is already sending correctly on laptop.
     const amountStr = round8(totalBTC);
-
     const txid = await window.unisat.sendBitcoin(BTC_RECEIVE_ADDRESS, amountStr);
 
     // Log PAID (txid captured)
@@ -905,7 +973,6 @@ function openMobileOptions(){
   const bip21 = `bitcoin:${BTC_RECEIVE_ADDRESS}?amount=${round8(totalBTC)}`;
 
   // QR image via public QR generator (fast + reliable).
-  // If you want, we can swap this to a local QR library later (no external dependency).
   const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(bip21);
   qrImg.src = qrUrl;
 
@@ -958,11 +1025,14 @@ submitPaidBtn.addEventListener("click", async ()=>{
     showToast(err?.message || "Could not record receipt. Try again.");
   }
 });
+
+/* ✅ init */
+setConnectBtnUI();
+refreshPayButtonState();
 </script>
 
 </body>
 </html>
-
 
 
 
