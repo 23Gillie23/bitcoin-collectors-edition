@@ -14,7 +14,10 @@
   --gold-soft:#bfa24a;
   --text:#e6e1d8;
 
+  /* Hero image max width */
   --hero-max-width: 1200px;
+
+  /* Responsive vertical rhythm */
   --section-gap: clamp(56px, 8vw, 140px);
 }
 
@@ -28,7 +31,10 @@ body{
   background-color: var(--bg-dark);
 }
 
-.hero{ padding: 10px 10px 10px; }
+/* ===== HERO AREA ===== */
+.hero{
+  padding: 10px 10px 10px;
+}
 
 /* Header */
 header h1{
@@ -42,6 +48,7 @@ header h1{
   margin: 0 0 6px 0;
   font-weight: 550;
 }
+
 header h2{
   color: var(--gold);
   font-size: 20px;
@@ -60,6 +67,8 @@ nav{
   padding: 0 10px;
 }
 nav a{
+  display: inline-block;          /* ✅ makes ::after underline reliable */
+  padding-bottom: 6px;            /* space for underline */
   color:var(--gold-soft);
   text-decoration:none;
   font-size:14px;
@@ -68,18 +77,31 @@ nav a{
   transition: color 0.3s ease;
   white-space: nowrap;
 }
+
 nav a::after{
   content:"";
   position:absolute;
   left:0;
-  bottom:-6px;
+  bottom:0;                 /* ⬅ move underline INSIDE the link */
   width:0%;
-  height:1px;
+  height:2px;               /* slightly thicker for luxury feel */
   background:var(--gold);
   transition: width 0.3s ease;
 }
+
 nav a:hover{ color:var(--gold); }
 nav a:hover::after{ width:100%; }
+
+/* ADD THESE LINES BELOW */
+nav a:active{ color: var(--gold); }
+nav a:active::after{ width: 100%; }
+
+nav a:focus-visible{
+  color: var(--gold);
+  outline: none;
+}
+nav a:focus-visible::after{ width: 100%; }
+
 
 /* Buttons */
 .btn{
@@ -98,10 +120,6 @@ nav a:hover::after{ width:100%; }
   color: #000;
   box-shadow: 0 6px 18px rgba(212,175,55,0.35);
 }
-.btn:disabled{
-  opacity: 0.55;
-  cursor: not-allowed;
-}
 
 /* Tagline */
 .tagline{
@@ -117,21 +135,26 @@ nav a:hover::after{ width:100%; }
   position: relative;
   max-width: var(--hero-max-width);
   margin: -20px auto 0;
-  padding: 0 10px;
+  padding: 0 10px; /* small gutter so overlays don't touch screen edge on mobile */
 }
 
+/* BUY button pinned top-left of image */
 .buy-overlay{
   position: absolute;
   top: 12px;
   left: 12px;
   z-index: 2;
 }
+
+/* CONNECT WALLET pinned top-right */
 .wallet-overlay{
   position: absolute;
   top: 12px;
   right: 12px;
   z-index: 2;
 }
+
+/* TAGLINE centered inside the image */
 .tagline-overlay{
   position: absolute;
   left: 50%;
@@ -141,7 +164,10 @@ nav a:hover::after{ width:100%; }
   width: 100%;
   pointer-events: none;
 }
-.tagline-overlay .tagline{ text-align:center; }
+.tagline-overlay .tagline{
+  margin: 0;
+  text-align: center;
+}
 
 /* Artifact external reference link */
 .artifact-link{
@@ -163,12 +189,13 @@ nav a:hover::after{ width:100%; }
   filter: drop-shadow(0 14px 40px rgba(0,0,0,0.45));
 }
 
-/* Sections */
+/* ===== CONTENT SECTIONS ===== */
 section{
   max-width: 900px;
   margin: var(--section-gap) auto;
   padding: 0 20px;
 }
+
 section h3{
   color:var(--gold);
   font-size: clamp(20px, 2.8vw, 28px);
@@ -180,12 +207,15 @@ section p{
   line-height: 1.7;
 }
 
-#contact{ margin-bottom: 0; }
+/* Remove extra gap after CONTACT so emblems can sit close */
+#contact{
+  margin-bottom: 0;
+}
 
-/* Brand emblems */
+/* ===== BRAND EMBLEMS (LEFT + RIGHT) ===== */
 section.brand-row{
   max-width: 1200px;
-  margin: 10px auto 30px;
+  margin: 10px auto 30px; /* close to contact */
   padding: 0 20px;
 
   display: flex;
@@ -193,6 +223,7 @@ section.brand-row{
   align-items: center;
   gap: 24px;
 }
+
 .brand-emblem{
   width: 375px;
   max-width: 42vw;
@@ -201,102 +232,26 @@ section.brand-row{
   opacity: 0.95;
   filter: drop-shadow(0 12px 32px rgba(0,0,0,0.4));
 }
+
+/* subtle asymmetry */
 .brand-left{ transform: rotate(-1deg); }
 .brand-right{ transform: rotate(1deg); }
 
+/* Footer */
 footer{
-  padding: 18px 20px;
+  padding: 18px 20px; /* pulled closer */
   font-size: 14px;
   color: var(--gold-soft);
 }
 
-/* ===== MODAL ===== */
-.modal-backdrop{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  z-index: 9999;
-}
-.modal{
-  width: min(560px, 100%);
-  background: rgba(18,11,6,0.96);
-  border: 1px solid rgba(212,175,55,0.35);
-  border-radius: 14px;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.55);
-  padding: 18px;
-  text-align: left;
-}
-.modal h4{
-  margin: 6px 0 12px;
-  color: var(--gold);
-  letter-spacing: 2px;
-  font-size: 16px;
-}
-.form-row{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin: 10px 0;
-}
-label{
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: var(--gold-soft);
-}
-input{
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(212,175,55,0.25);
-  background: rgba(0,0,0,0.25);
-  color: var(--text);
-  outline: none;
-}
-input:focus{
-  border-color: rgba(212,175,55,0.6);
-}
-.small{
-  font-size: 12px;
-  color: rgba(230,225,216,0.9);
-  line-height: 1.4;
-}
-.warning{
-  margin: 10px 0;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(212,175,55,0.25);
-  background: rgba(212,175,55,0.08);
-}
-.modal-actions{
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 14px;
-}
-.toast{
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  background: rgba(18,11,6,0.95);
-  border: 1px solid rgba(212,175,55,0.35);
-  color: var(--text);
-  padding: 10px 14px;
-  border-radius: 12px;
-  display: none;
-  z-index: 10000;
-  max-width: 92vw;
-}
-
-/* ===== Responsive ===== */
+/* ===== RESPONSIVE TWEAKS ===== */
 @media (max-width: 1024px){
   :root{ --hero-max-width: 920px; }
 }
+
 @media (max-width: 768px){
+
+  /* Fix main title wrapping */
   header h1{
     white-space: normal;
     line-height: 1.15;
@@ -304,14 +259,18 @@ input:focus{
     padding: 0 8px;
     font-size: clamp(22px, 7vw, 34px);
   }
+
   header h2{
     font-size: 16px;
     letter-spacing: 2px;
   }
+
   nav a{
     font-size: 13px;
     letter-spacing: 1.5px;
   }
+
+  /* keep overlay buttons reachable on small screens */
   .buy-overlay{ top: 10px; left: 10px; }
   .wallet-overlay{ top: 10px; right: 10px; }
   .btn{
@@ -320,22 +279,29 @@ input:focus{
     letter-spacing: 2px;
   }
 
-  /* keep tagline readable + not on buttons */
-  .tagline-overlay{
-    top: 44px;
-    padding: 0 12px;
-    box-sizing: border-box;
-  }
-  .tagline{
-    white-space: nowrap;
-    font-size: clamp(14px, 4vw, 20px);
-    letter-spacing: clamp(1px, 1vw, 2px);
-    line-height: 1.1;
+  /* Keep tagline off the buttons + give it side room */
+  /* Mobile: keep tagline inside image but above the coin */
+/* Mobile: keep tagline on one line so it doesn't drop onto the coin */
+.tagline-overlay{
+  top: 44px;              /* adjust if needed */
+  padding: 0 12px;        /* allow more usable width */
+  box-sizing: border-box;
+}
+
+.tagline{
+  white-space: nowrap;                 /* no wrap */
+  font-size: clamp(14px, 4vw, 20px);   /* scales down on small screens */
+  letter-spacing: clamp(1px, 1vw, 2px);
+  line-height: 1.1;
+}
+
+
+  /* ✅ Key fix: push the IMAGE/COIN down so tagline doesn't sit on it */
+  .hero-canvas{
+    margin-top: 70px;  /* was 25px */
   }
 
-  /* push image down to keep tagline off coin */
-  .hero-canvas{ margin-top: 70px; }
-
+  /* brand emblems stack on mobile */
   section.brand-row{
     flex-direction: column;
     justify-content: center;
@@ -369,11 +335,11 @@ input:focus{
 
   <div class="hero-image-wrap">
     <div class="buy-overlay">
-      <button class="btn" id="buyBtn" type="button">BUY</button>
+      <button class="btn" type="button">BUY</button>
     </div>
 
     <div class="wallet-overlay">
-      <button class="btn" id="connectBtn" type="button">CONNECT WALLET</button>
+      <button class="btn" type="button">CONNECT WALLET</button>
     </div>
 
     <div class="tagline-overlay">
@@ -387,10 +353,11 @@ input:focus{
 <section id="about">
   <h3>ABOUT US</h3>
   <p>
-    BITCOIN COLLECTORS EDITION is a limited edition. 500,000 will ever exist. Supply is permanently closed,
-    no minting, no future versions. This Collectors Grade Artifact was created on April 24, 2024 on the fourth day
-    of the halving, representing permanence, scarcity, and historical significance within the Bitcoin ecosystem.
-    This is an Elite Access Distribution through private sale, invitation, earned participation.
+    BITCOIN COLLECTORS EDITION is a limited edition curated on the Bitcoin network. 500,000 will ever exist. 
+    Supply is permanently closed, no minting, no future versions. This Collectors Grade Artifact was created on 
+    April 24, 2024 on the fourth dayof the halving, representing permanence, scarcity, and historical 
+    significance within the Bitcoin ecosystem.This is an Elite Access Distribution through private sale, 
+    invitation, earned participation.<br>
     Ownership is a symbolic investment.
   </p>
 </section>
@@ -405,7 +372,7 @@ input:focus{
     This will continue on in this fashion until the price per token is 1.5 BTC.
     At that point the floor valuation of BITCOIN COLLECTORS EDITION is set at 1.5 BTC
     and will never be valued less than. The historic value of this Collectors Grade Artifact
-    will only increase over the years because of it's historical significance and limited supply.
+    will only increase over the years because of it's historical significance and limited supply.<br>
     Ownership is Elite.
   </p>
 </section>
@@ -441,15 +408,21 @@ input:focus{
 <section id="how">
   <h3>HOW TO BUY</h3>
   <p>
-    1. Connect your UniSat wallet<br>
+    1. Dowload Unisat in your web browser
+    2. Connect your UniSat wallet<br>
        (Unisat only)<br>
-    2. Select quantity<br>
-    3. Enter your Ordinals address<br>
-       (Capable of receiving Runes)<br>
-    4. Confirm transaction<br>
-    5. Batch Deliveries within 24 hours<br><br>
+    3. Select quantity<br>
+    4. Enter your Ordinals address<br>
+       (Capable of recieving Runes)<br>
+    5. Confirm transaction<br>
+    6. Batch Deliveries within 24 hours<br>
+    7. Welcome to the Movement!<br>
+    <br>
     During presale deliveries will be manually sent.<br>
-    After the presale is over multiple wallet options will be available and deliveries will be automated.
+    After the presale is over multiple wallet options will
+    be available and deliveries will be<br>
+    automated, normal blockchain delevery speeds<br>
+    will apply.
   </p>
 </section>
 
@@ -460,7 +433,14 @@ input:focus{
     If we woke up tomorrow morning and on the news we were told of the existence of
     500 million extraterrestrials that have been living on this planet with us all along,
     what's the plan?
-    That is the core of Alien Integration Movement Corp...
+    That is the core of Alien Integration Movement Corp. The integration of extraterrestrials
+    into our society as one of us. The planning and the formula is 20 years in the making.
+    Our species at some point in our future will co-exist with extraterrestrials. Not only is it inevitable,
+    it will be necessary to the success of our species to have multiple interspecies alliances on multiple planets.
+    BITCOIN COLLECTORS EDITION was created to play a major part in the financial infrastructure of the Movement and
+    the development of the necessary infrastructure for the Alien Integration Movement and the Extraterrestrial Citizenship Program.
+    You would be participating in the most historical event that has ever occurred on our planet.<br>
+    Owning BITCOIN COLLECTORS EDITION will be a monumental ownership.
   </p>
 </section>
 
