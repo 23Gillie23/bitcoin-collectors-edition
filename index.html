@@ -667,7 +667,12 @@ footer{
  *  ========================= */
 const PRICE_PER_TOKEN_BTC = 0.00375;
 const BTC_RECEIVE_ADDRESS = "bc1pymsx9zrf7dl5h7vsupmfvnt7vp8hqcw8kxptsglvzvea6enhm2ys0h3hw2";
-const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzcq31mNHjhLB576IGrrgWTXzFrt1xr3C5pzOMMtJlBs7x_rsK3f2jYXbWgG5y2RU7D/exec";
+const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycby2o39Xil0P3XqGl7wKNio0l1IsGhUoto0WZTbhz0U7aIr2UxVdEAETvnRrjHDlrFZV/exec";
+
+/* 🔢 Presale cap logic */
+const PRESALE_CAP = 1000;
+let tokensSold = 0;
+let tokensRemaining = PRESALE_CAP;
 
 /** =========================
  *  Helpers
@@ -735,10 +740,14 @@ function setTotals(){
   totalBtcDisplay.value = tokens ? round8(totalBTC) : "—";
 }
 
-/* ✅ Disable PAY buttons until form is valid */
+/* ✅ Disable PAY buttons until form is valid, and respect remaining supply */
 function validateOrderInputs(){
   const { tokens } = calc();
   const ordAddr = (ordinalsInput.value || "").trim();
+
+  if(tokensRemaining <= 0) return false;      // sold out
+  if(tokens > tokensRemaining) return false;  // trying to buy more than remaining
+
   // simple sanity check (we can tighten later)
   return tokens > 0 && ordAddr.length > 10;
 }
@@ -768,6 +777,31 @@ async function copyToClipboard(text){
   }
 }
 
+/* 🔄 Update BUY button / form when sold out or close */
+function updatePresaleUI(){
+  if(tokensRemaining <= 0){
+    // Completely sold out
+    buyBtn.disabled = true;
+    buyBtn.textContent = "PRESALE SOLD OUT";
+
+    payWithUnisatBtn.disabled = true;
+    openMobileOptionsBtn.disabled = true;
+
+    tokensInput.disabled = true;
+    ordinalsInput.disabled = true;
+    buyerWalletInput.disabled = true;
+  }else{
+    buyBtn.disabled = false;
+    buyBtn.textContent = "BUY";
+
+    tokensInput.disabled = false;
+    ordinalsInput.disabled = false;
+    buyerWalletInput.disabled = false;
+
+    refreshPayButtonState();
+  }
+}
+
 /** =========================
  *  Sheet logging
  *  ========================= */
@@ -778,10 +812,28 @@ async function logToSheet(payload){
     body: JSON.stringify(payload),
   });
   const data = await res.json().catch(()=> ({}));
-  if(!res.ok || data.ok === false){
+  if(!res.ok || data.ok === false || data.success === false){
     throw new Error(data.error || "Sheet logging failed.");
   }
   return data;
+}
+
+/* 🔍 Get current sold/remaining from Apps Script stats endpoint */
+async function fetchPresaleStats(){
+  try{
+    const res = await fetch(SHEETS_WEBAPP_URL + "?mode=stats");
+    const data = await res.json();
+
+    tokensSold = Number(data.sold) || 0;
+    tokensRemaining = Math.max(PRESALE_CAP - tokensSold, 0);
+    updatePresaleUI();
+  }catch(err){
+    console.error("Failed to fetch presale stats", err);
+    // If it fails, we fall back to full cap (no hard block, but UI still works)
+    tokensSold = 0;
+    tokensRemaining = PRESALE_CAP;
+    updatePresaleUI();
+  }
 }
 
 /** =========================
@@ -821,7 +873,12 @@ tokensInput.addEventListener("input", ()=>{
 });
 ordinalsInput.addEventListener("input", refreshPayButtonState);
 
+/* 🧱 BUY button: block if sold out */
 buyBtn.addEventListener("click", ()=>{
+  if(tokensRemaining <= 0){
+    showToast("The presale is sold out.");
+    return;
+  }
   setTotals();
   refreshPayButtonState();
   openModal("buyModal");
@@ -891,6 +948,15 @@ payWithUnisatBtn.addEventListener("click", async ()=>{
   const ordAddr = (ordinalsInput.value || "").trim();
   const buyerWallet = (buyerWalletInput.value || "").trim();
 
+  if(tokensRemaining <= 0){
+    showToast("The presale is sold out.");
+    return;
+  }
+  if(tokens > tokensRemaining){
+    showToast(`Only ${tokensRemaining} tokens remaining in presale.`);
+    return;
+  }
+
   if(!tokens){
     showToast("Enter token quantity.");
     return;
@@ -939,6 +1005,11 @@ payWithUnisatBtn.addEventListener("click", async ()=>{
       Completed: "N"
     });
 
+    // Update local counters after successful log
+    tokensSold += tokens;
+    tokensRemaining = Math.max(PRESALE_CAP - tokensSold, 0);
+    updatePresaleUI();
+
     closeModal("buyModal");
     showToast("Thank you. Delivery within 24 hours (batched).");
 
@@ -955,6 +1026,15 @@ openMobileOptionsBtn.addEventListener("click", openMobileOptions);
 function openMobileOptions(){
   const { tokens, totalBTC } = calc();
   const ordAddr = (ordinalsInput.value || "").trim();
+
+  if(tokensRemaining <= 0){
+    showToast("The presale is sold out.");
+    return;
+  }
+  if(tokens > tokensRemaining){
+    showToast(`Only ${tokensRemaining} tokens remaining in presale.`);
+    return;
+  }
 
   if(!tokens){
     showToast("Enter token quantity first.");
@@ -990,6 +1070,15 @@ submitPaidBtn.addEventListener("click", async ()=>{
   const buyerWallet = (buyerWalletInput.value || "").trim();
   const txid = (txidInput.value || "").trim();
 
+  if(tokensRemaining <= 0){
+    showToast("The presale is sold out.");
+    return;
+  }
+  if(tokens > tokensRemaining){
+    showToast(`Only ${tokensRemaining} tokens remaining in presale.`);
+    return;
+  }
+
   if(!looksLikeTxid(txid)){
     showToast("TXID must be 64 hex characters. Paste the full TXID.");
     return;
@@ -1016,6 +1105,11 @@ submitPaidBtn.addEventListener("click", async ()=>{
       Completed: "N"
     });
 
+    // Update local counters
+    tokensSold += tokens;
+    tokensRemaining = Math.max(PRESALE_CAP - tokensSold, 0);
+    updatePresaleUI();
+
     closeModal("mobileModal");
     closeModal("buyModal");
     txidInput.value = "";
@@ -1029,6 +1123,7 @@ submitPaidBtn.addEventListener("click", async ()=>{
 /* ✅ init */
 setConnectBtnUI();
 refreshPayButtonState();
+fetchPresaleStats();   // 🔥 get current sold/remaining from your sheet on load
 </script>
 
 </body>
